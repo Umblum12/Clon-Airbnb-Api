@@ -8,8 +8,6 @@ import* as nodemailer from 'nodemailer';
 export class UsuariosController {
   constructor(private readonly usuariosService: UsuariosService) {}
 
-
-
     @Post(':mail')
     async sendEmail(@Param('mail') mail: string) {
       try {
