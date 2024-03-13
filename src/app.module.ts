@@ -5,6 +5,7 @@ import { UsuariosModule } from './usuarios/usuarios.module';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ClasesModule } from './clases/clases.module';
+import { ReservationsModule } from './reservations/reservations.module';
 
 @Module({
   imports: [
@@ -13,7 +14,8 @@ import { ClasesModule } from './clases/clases.module';
     }),
     MongooseModule.forRoot(process.env.DB_URI),
     UsuariosModule,
-    ClasesModule],
+    ClasesModule,
+    ReservationsModule],
   controllers: [AppController],
   providers: [AppService],
 })

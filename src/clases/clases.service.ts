@@ -34,11 +34,27 @@ export class ClasesService {
     return `This action returns a #${id} clase`;
   }
 
-  update(id: number, updateClaseDto: UpdateClaseDto) {
-    return `This action updates a #${id} clase`;
+  async update(id: string, updateClaseDto: UpdateClaseDto) {
+    const existingClase = await this.claseModel.findByIdAndUpdate(
+      id,
+      updateClaseDto,  // <-- Usar la variable directamente
+      { new: true },   // Return the modified document
+    );
+
+    if (!existingClase) {
+      throw new NotFoundException(`Clase with id ${id} not found`);
+    }
+
+    return existingClase;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} clase`;
+  async remove(id: string) {
+    const existingClase = await this.claseModel.findById(id);
+
+    if (!existingClase) {
+      throw new NotFoundException(`Clase with id ${id} not found`);
+    }
+
+    return this.claseModel.deleteOne({ _id: id });
   }
 }

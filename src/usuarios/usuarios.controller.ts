@@ -72,4 +72,5 @@ export class UsuariosController {
   remove(@Param('id') id: string) {
     return this.usuariosService.remove(id);
   }
+
 }

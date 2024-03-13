@@ -10,11 +10,15 @@ export class Clase {
     @Prop()
     description: string;
     @Prop()
+    DateStart: Date;
+    @Prop()
+    DateEnd: Date;
+    @Prop()
     imageSrc: string[];
     @Prop()
     category: string[];
     @Prop()
-    guestCount: string[];
+    guestCount: string;
     @Prop()
     location: string;
     @Prop()

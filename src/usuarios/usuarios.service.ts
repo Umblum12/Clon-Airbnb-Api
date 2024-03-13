@@ -7,9 +7,6 @@ import { Model } from 'mongoose';
 
 @Injectable()
 export class UsuariosService {
-  /**
-   *
-   */
   constructor(
     @InjectModel(Usuario.name)
     private usuarioModel: Model<Usuario>,
