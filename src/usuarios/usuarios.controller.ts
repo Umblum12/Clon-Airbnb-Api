@@ -3,10 +3,30 @@ import { UsuariosService } from './usuarios.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import* as nodemailer from 'nodemailer';
+import * as jwt from 'jsonwebtoken'; // Importar jwt
 
 @Controller('usuarios')
 export class UsuariosController {
   constructor(private readonly usuariosService: UsuariosService) {}
+
+  @Post('login') // Endpoint para el inicio de sesión
+  async login(@Body() loginUserDto: any) {
+    try {
+      const user = await this.usuariosService.findByCredentials(loginUserDto.username, loginUserDto.password);
+      if (!user) {
+        throw new Error('Usuario o contraseña incorrectos');
+      }
+      
+      // Generar token JWT
+      const token = jwt.sign({ userId: user._id }, 'your_secret_key', { expiresIn: '1h' });
+
+      return { token }; // Devolver token JWT
+    } catch (error) {
+      throw new Error('Usuario o contraseña incorrectos');
+    }
+  }
+
+
 
     @Post(':mail')
     async sendEmail(@Param('mail') mail: string) {
@@ -46,7 +66,6 @@ export class UsuariosController {
       }
     }
   
-
 
   @Post()
   create(@Body() createUsuarioDto: CreateUsuarioDto) {

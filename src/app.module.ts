@@ -15,7 +15,8 @@ import { ReservationsModule } from './reservations/reservations.module';
     MongooseModule.forRoot(process.env.DB_URI),
     UsuariosModule,
     ClasesModule,
-    ReservationsModule],
+    ReservationsModule,
+    ],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -5,12 +5,18 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Usuario } from './schemas/usuario.schema';
 import { Model } from 'mongoose';
 
+
 @Injectable()
 export class UsuariosService {
   constructor(
     @InjectModel(Usuario.name)
     private usuarioModel: Model<Usuario>,
   ) {}
+
+  async findByCredentials(User: string, Password: string): Promise<Usuario> {
+    const user = await this.usuarioModel.findOne({ User, Password });
+    return user;
+  }
 
   create(createUsuarioDto: CreateUsuarioDto) {
     return this.usuarioModel.create(createUsuarioDto);
