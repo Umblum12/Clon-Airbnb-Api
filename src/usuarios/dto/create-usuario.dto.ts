@@ -3,4 +3,5 @@ export class CreateUsuarioDto {
     Password: string;
     Mail: string;
     Rol: string;
+    isFavorite: string[];
 }

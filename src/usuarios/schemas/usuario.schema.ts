@@ -11,6 +11,8 @@ export class Usuario extends Document {
     Mail: string;
     @Prop()
     Rol: string;
+    @Prop()
+    isFavorite: string[];
 }
 
 export const UsuarioSchema = SchemaFactory.createForClass(Usuario);
