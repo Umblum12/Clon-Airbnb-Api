@@ -11,7 +11,7 @@ export class CloudinaryService {
                 } else {
                     resolve({
                         public_id: result.public_id,
-                        source_url: result.url
+                        source_url: result.secure_url
                     });
                 }
             });
