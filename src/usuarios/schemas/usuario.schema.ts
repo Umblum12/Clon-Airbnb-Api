@@ -13,6 +13,16 @@ export class Usuario extends Document {
     Rol: string;
     @Prop()
     isFavorite: string[];
+    @Prop({
+        type: {
+            public_id: String,
+            imageUrl: String,
+        }
+    })
+    imagePerfil: {
+        public_id: string;
+        imageUrl: string;
+    };
 }
 
 export const UsuarioSchema = SchemaFactory.createForClass(Usuario);

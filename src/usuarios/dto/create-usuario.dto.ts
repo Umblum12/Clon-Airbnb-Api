@@ -4,4 +4,8 @@ export class CreateUsuarioDto {
     Mail: string;
     Rol: string;
     isFavorite: string[];
+    imagePerfil: {
+        public_id: string;
+        imageUrl: string;
+    };
 }

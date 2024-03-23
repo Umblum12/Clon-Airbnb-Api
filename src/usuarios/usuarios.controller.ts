@@ -1,13 +1,18 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UploadedFile, ParseFilePipe, MaxFileSizeValidator, FileTypeValidator, UseInterceptors } from '@nestjs/common';
 import { UsuariosService } from './usuarios.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import* as nodemailer from 'nodemailer';
 import * as jwt from 'jsonwebtoken'; // Importar jwt
+import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('usuarios')
 export class UsuariosController {
-  constructor(private readonly usuariosService: UsuariosService) {}
+  constructor(
+    private readonly usuariosService: UsuariosService,
+    private readonly cloudinaryService: CloudinaryService
+    ) {}
 
   @Post('login') // Endpoint para el inicio de sesión
   async login(@Body() loginUserDto: any) {
@@ -24,6 +29,22 @@ export class UsuariosController {
     } catch (error) {
       throw new Error('Usuario o contraseña incorrectos');
     }
+  }
+
+  @Post('upload/:id')
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadImage(
+    @Param('id') userId: string,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    const { public_id, source_url } = await this.cloudinaryService.uploadFile(file);
+
+    // Actualizar los valores del usuario en la base de datos
+    await this.usuariosService.update(userId, { 
+      imagePerfil: { public_id, imageUrl: source_url } 
+    });
+
+    return { public_id, source_url };
   }
 
 
